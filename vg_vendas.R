@@ -142,6 +142,8 @@ ggplot(top100) + geom_bar(aes(x = Year,fill = Publisher), colour = "black") +
 
 # Outros exemplos de manipulação de dados e gráficos ---------------------------------------------------------------------------------------
 
+### Média de vendas de jogos nos Estados Unidos para o ano de 2010
+
 data <- vgsales %>%
   select(Genre, EU_Sales, Year) %>%
   filter(Year == "2010") %>%
@@ -149,5 +151,17 @@ data <- vgsales %>%
   summarise(media = mean(EU_Sales))
 data
 
+### Gráfico de barras
+
 ggplot(data) +
   geom_col(aes(x = Genre, y = media, fill = Genre))
+
+glimpse(data)
+data$Genre <- as.factor(data$Genre)
+glimpse(data)
+library(forcats)
+
+data %>%
+  mutate(Genre = fct_reorder(Genre, media)) %>%
+  ggplot() +
+  geom_col(aes(x = Genre, y = media))
