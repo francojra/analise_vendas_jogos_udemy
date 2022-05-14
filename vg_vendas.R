@@ -76,24 +76,24 @@ vgsales %>% filter(Publisher %in% ma_prod$Publisher) %>%
 
 #America do norte (Nintendo)
 vgsales %>% filter(Publisher %in% ma_prod$Publisher) %>%
-  ggplot + geom_boxplot(aes(x=Publisher,y=NA_Sales))+
-  theme_bw()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-  labs(x="Empresa",y="Vendas")
+  ggplot + geom_boxplot(aes(x = Publisher,y = NA_Sales)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "Empresa",y = "Vendas")
 
 #União Européia
 vgsales %>% filter(Publisher %in% ma_prod$Publisher) %>%
-  ggplot + geom_boxplot(aes(x=Publisher,y=EU_Sales))+
-  theme_bw()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-  labs(x="Empresa",y="Vendas")
+  ggplot + geom_boxplot(aes(x = Publisher,y = EU_Sales)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "Empresa",y = "Vendas")
 
 #Outras regiões
 vgsales %>% filter(Publisher %in% ma_prod$Publisher) %>%
-  ggplot + geom_boxplot(aes(x=Publisher,y=Other_Sales))+
-  theme_bw()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-  labs(x="Empresa",y="Vendas")
+  ggplot + geom_boxplot(aes(x = Publisher,y = Other_Sales)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "Empresa",y = "Vendas")
 
 
 
@@ -106,21 +106,25 @@ vgsales %>% count(Genre) %>% View
 
 #mais vendidos
 vgsales %>% group_by(Genre) %>%
-  summarise(vendas_total= sum(Global_Sales),vendas_media = mean(Global_Sales)) %>%
+  summarise(vendas_total = sum(Global_Sales),vendas_media = mean(Global_Sales)) %>%
   View
 
 #boxplot
-vgsales %>% ggplot(aes(x=Genre,y=Global_Sales)) +geom_boxplot()+geom_jitter(alpha=0.1)
+vgsales %>% ggplot(aes(x = Genre,y = Global_Sales)) + 
+  geom_boxplot() + 
+  geom_jitter(alpha = 0.1)
 
 ####Qual plataforma teve mais sucesso?
 
 vgsales %>% count(Platform) %>% View #número de jogos
 
-vgsales %>% group_by(Platform) %>% summarise(vendas=mean(Global_Sales)) %>%
+vgsales %>% group_by(Platform) %>% summarise(vendas = mean(Global_Sales)) %>%
   View # média de vendas
 
-vgsales %>% group_by(Platform) %>% summarise(vendas=mean(Global_Sales),sd=sd(Global_Sales)) %>%
-  ggplot + geom_pointrange(aes(x=reorder(Platform,-vendas),y=vendas,ymin=vendas-sd,ymax=vendas+sd))+
+vgsales %>% group_by(Platform) %>% 
+  summarise(vendas = mean(Global_Sales),sd = sd(Global_Sales)) %>%
+  ggplot + geom_pointrange(aes(x = reorder(Platform,-vendas),
+                               y = vendas,ymin = vendas - sd, ymax = vendas + sd)) +
   theme_bw()
 
 #######################################################
@@ -157,9 +161,9 @@ ggplot(data) +
   geom_col(aes(x = Genre, y = media, fill = Genre))
 
 glimpse(data)
-data$Genre <- as.factor(data$Genre)
+data$Genre <- as.factor(data$Genre) # Tranformando a variável 'Genre' em fator
 glimpse(data)
-library(forcats)
+library(forcats) # Pacote para reordenar os dados
 
 data %>%
   mutate(Genre = fct_reorder(Genre, media)) %>%
