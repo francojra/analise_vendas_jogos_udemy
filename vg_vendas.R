@@ -21,26 +21,26 @@ View(vgsales)
 names(vgsales)
 ###############
 #Em que ano foram lançados
-qplot(data=vgsales,x=Year,fill=Genre)
+qplot(data = vgsales, x = Year, fill = Genre)
 
-qplot(data=vgsales,x=Year,fill=Platform)
+qplot(data = vgsales, x = Year, fill = Platform)
 
 
 ############
 #Quais são as maiores produtoras de jogos? (que produzem mais jogos)
-qplot(data=vgsales,x=Publisher) # para se ter uma ideia da distribuição
+qplot(data = vgsales, x = Publisher) # para se ter uma ideia da distribuição
 
-ma_prod<- vgsales %>% count(Publisher,sort=TRUE) %>% top_n(30) # top 30 empresas
+ma_prod <- vgsales %>% count(Publisher,sort = TRUE) %>% top_n(30) # top 30 empresas
 
-ma_prod<- vgsales %>% filter(Publisher %in% ma_prod$Publisher) %>%
-  group_by(Publisher) %>% count(Genre,sort=TRUE) # genero dos jogos
+ma_prod <- vgsales %>% filter(Publisher %in% ma_prod$Publisher) %>%
+  group_by(Publisher) %>% count(Genre,sort = TRUE) # genero dos jogos
 
 #gráfico mais informativo
 ggplot(ma_prod) + 
-  geom_col(aes(x=reorder(Publisher,-n),y=n,fill=Genre),colour="black")+
-  theme_bw()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-  labs(x="Empresa",y="Vendas",fill="Gênero")
+  geom_col(aes(x = reorder(Publisher,-n), y = n, fill = Genre), colour = "black") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "Empresa",y = "Vendas",fill = "Gênero")
 
 
 ##################
@@ -49,30 +49,33 @@ ggplot(ma_prod) +
 View(ma_prod)
 #vendas estão em milhões de unidades
 
-lucrativas<- vgsales %>% filter(Publisher %in% ma_prod$Publisher) %>%
-  group_by(Publisher) %>% summarise(vendas = mean(Global_Sales),sd= sd(Global_Sales))
+lucrativas <- vgsales %>% filter(Publisher %in% ma_prod$Publisher) %>%
+  group_by(Publisher) %>% summarise(vendas = mean(Global_Sales),sd = sd(Global_Sales))
 
 
-lucrativas %>% ggplot() + geom_col(aes(x=reorder(Publisher,-vendas),y=vendas),fill="steelblue3",colour="black")+
-  geom_errorbar(aes(x=reorder(Publisher,-vendas),ymin=vendas-sd,ymax=vendas+sd))+
-  theme_bw()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-  labs(x="Empresa",y="Vendas")
+lucrativas %>% ggplot() + 
+  geom_col(aes(x = reorder(Publisher,-vendas),y = vendas),
+           fill = "steelblue3",colour = "black") +
+  geom_errorbar(aes(x = reorder(Publisher,-vendas),
+                    ymin = vendas - sd, ymax = vendas + sd)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "Empresa",y = "Vendas")
 
 
 #alternativa com boxplot
 vgsales %>% filter(Publisher %in% ma_prod$Publisher) %>%
-  ggplot + geom_boxplot(aes(x=Publisher,y=Global_Sales))+
-theme_bw()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-  labs(x="Empresa",y="Vendas")
+  ggplot + geom_boxplot(aes(x = Publisher,y = Global_Sales)) +
+theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "Empresa",y = "Vendas")
 
 #Japão (Nintendo e Square enix)
 vgsales %>% filter(Publisher %in% ma_prod$Publisher) %>%
-  ggplot + geom_boxplot(aes(x=Publisher,y=JP_Sales))+
-  theme_bw()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))+
-  labs(x="Empresa",y="Vendas")
+  ggplot + geom_boxplot(aes(x = Publisher,y = JP_Sales)) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(x = "Empresa", y = "Vendas")
 
 #America do norte (Nintendo)
 vgsales %>% filter(Publisher %in% ma_prod$Publisher) %>%
