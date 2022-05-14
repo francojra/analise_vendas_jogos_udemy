@@ -126,15 +126,28 @@ vgsales %>% group_by(Platform) %>% summarise(vendas=mean(Global_Sales),sd=sd(Glo
 #######################################################
 #top100 jogos mais vendidos
 #top100
-top100<- vgsales %>% filter(Rank<=100)
+
+top100 <- vgsales %>% filter(Rank <= 100)
 top100 %>% count(Publisher) %>% View
-ggplot(top100) +geom_bar(aes(x=Publisher,fill=Genre),colour="black")+
+ggplot(top100) + geom_bar(aes(x = Publisher, fill = Genre),colour = "black") +
   theme_minimal()
 
-ggplot(top100) +geom_bar(aes(x=Year,fill=Genre),colour="black")+
+ggplot(top100) + geom_bar(aes(x = Year,fill = Genre),colour = "black") +
   theme_minimal()
 
 
-ggplot(top100) +geom_bar(aes(x=Year,fill=Publisher),colour="black")+
+ggplot(top100) + geom_bar(aes(x = Year,fill = Publisher), colour = "black") +
   theme_minimal()
 
+
+# Outros exemplos de manipulação de dados e gráficos ---------------------------------------------------------------------------------------
+
+data <- vgsales %>%
+  select(Genre, EU_Sales, Year) %>%
+  filter(Year == "2010") %>%
+  group_by(Genre) %>%
+  summarise(media = mean(EU_Sales))
+data
+
+ggplot(data) +
+  geom_col(aes(x = Genre, y = media, fill = Genre))
