@@ -1,10 +1,8 @@
 # Análise de vendas de jogos - Curso Udemy
 
-## Exercício prático 
+## Exercício prático - Manipulação de dados e gráficos
 
-## Manipulação de dados e gráficos
-
-## Pacotes usados:
+### Pacotes usados:
 
 1. readr;
 2. dplyr;
